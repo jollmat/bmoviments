@@ -1,0 +1,4 @@
+<div class="percentbar">
+    <div class="percent" [style.width.%]="percent" [ngClass]="{'successbar': value > 0, 'dangerbar': value < 0}"></div>
+    <!-- {{value | number:'1.2':'es'}}/{{total | number:'1.2':'es'}} ({{percent | number:'1.2':'es'}}%) -->
+</div>

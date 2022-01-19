@@ -1,0 +1,17 @@
+div.percentbar{
+    width: 300px;
+    float: right;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 4px;
+    height: 10px;
+    div.percent{
+        &.successbar {
+            background-color: green;
+        }
+        &.dangerbar {
+            background-color: #dc0028;
+        }
+    }
+}

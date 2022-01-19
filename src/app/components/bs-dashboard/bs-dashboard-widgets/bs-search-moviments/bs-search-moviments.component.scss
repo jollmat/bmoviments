@@ -1,0 +1,27 @@
+
+div.card {
+    div.card-body {
+        p.card-text {
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(100vh - 165px) !important;
+        }
+    }
+}
+
+button.btn-editar {
+    position: relative;
+    top: -4px;
+}
+
+div.amount {
+    position: relative;
+    top: -5px;
+}
+
+input.search-input {
+    position: relative;
+    top: -5px;
+    font-size: 12px;
+    min-width: 120px;
+}

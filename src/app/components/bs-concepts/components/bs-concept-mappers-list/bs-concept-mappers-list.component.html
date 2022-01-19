@@ -1,0 +1,34 @@
+<div class="concept-mappers-list d-flex">
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>
+                    <span (click)="sort('matching')">Concepte original</span>
+                    <input type="text" 
+                        class="form-control search-input" 
+                        title="Cerca" 
+                        placeholder="Cerca"
+                        [(ngModel)]="filterInfo.original"
+                        value="{{filterInfo.original}}"
+                        #searchOriginalInput>
+                </th>
+                <th>
+                    <span (click)="sort('output')">Concepte de sortida</span>
+                    <input type="text" 
+                        class="form-control search-input" 
+                        title="Cerca" 
+                        placeholder="Cerca"
+                        [(ngModel)]="filterInfo.output"
+                        value="{{filterInfo.output}}"
+                        #searchOutputInput>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let conceptMapper of conceptMappersList">
+                <td>{{conceptMapper.matching}}</td>
+                <td>{{conceptMapper.output}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

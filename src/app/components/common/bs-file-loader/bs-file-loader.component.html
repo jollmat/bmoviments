@@ -1,0 +1,24 @@
+<div class="file-loader w-100 d-flex flex-column">
+    <div class="w-100">
+        <input type="file" class="form-control w-100" (change)="onFileChange($event)" multiple="true" />
+    </div>
+    <div class="px-2 py-3">
+        <ng-container *ngIf="totalFiles !== totalFilesLoaded">
+            <div>
+                <span class="me-2"><fa-icon [icon]="faSpinner" [spin]="true"></fa-icon></span>Processats {{totalFilesLoaded}} / {{totalFiles}} fitxers
+            </div>
+        </ng-container>
+        <ng-container *ngIf="totalFiles === totalFilesLoaded">
+            <ng-container *ngIf="totalFiles === 0">
+                <div>
+                    Selecciona els fitxers del banc
+                </div>
+            </ng-container>
+            <ng-container *ngIf="totalFiles > 0">
+                <div>
+                    <span class="me-2 text-success"><fa-icon [icon]="faCheck"></fa-icon></span>S'han processat {{totalFilesLoaded}} fitxers
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

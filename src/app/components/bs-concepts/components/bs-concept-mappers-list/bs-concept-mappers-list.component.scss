@@ -1,0 +1,13 @@
+.concept-mappers-list {
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+}
+
+th {
+    span {
+        cursor: pointer;
+    }
+    input.form-control {
+        font-size: 12px;
+    }
+}

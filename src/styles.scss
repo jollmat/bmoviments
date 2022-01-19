@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~ng-snotify/styles/material.scss";
+
+input[type=file] {
+    border: 0;
+}
+
+table {
+
+    &.tableFixHead  { 
+        overflow-y: auto;
+        thead {
+            tr {
+                th {
+                    position: sticky; top: 0;
+                }
+            }
+        }
+    }
+
+    &.tableFixFoot  { 
+        overflow-y: auto;
+        tfoot {
+            tr {
+                td {
+                    position: sticky; bottom: 0;
+                }
+            }
+        }
+    }
+
+    thead{
+        tr {
+            th {
+                
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                font-size: 12px;
+            }
+        }
+    }
+    tfoot {
+        tr {
+            td {
+                font-weight: 500;
+                color: #495057;
+                background-color: #fff;
+                border-top: 2px solid #ccc !important;
+                /* border-color: #dee2e6; */
+            }
+        }
+    }
+}
+
+.loading {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/* Bootstrap overwrite */
+.text-success {
+    color: #2AAF2F !important;
+}
+
+span.badge {
+    &.bankEntity {
+        width: 30px;
+        &.BS { background-color: #006DFF; }
+        &.CBK { background-color: snow; color: darkslateblue; border: 1px solid darkslateblue; }
+    }
+}

@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-body px-0 pb-0">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title ps-2">Top {{maxItems}} despeses</h5>
+            <div class="form-check form-switch pe-2">
+                <input class="form-check-input" [checked]="isGrouped" (click)="toggleGrouping($event)" type="checkbox" role="switch" id="flexSwitchCheckOutgoing">
+                <label class="form-check-label" for="flexSwitchCheckOutgoing">Agrupat</label>
+            </div>
+        </div>
+        
+        <p class="card-text">
+            <app-bs-moviments-list
+                [moviments]="items"
+                [showBorder]="false"
+                [showHover]="true"
+                [showHeader]="false"></app-bs-moviments-list>
+        </p>
+      </div>
+</div>
