@@ -1,0 +1,7 @@
+1 - Build en local:
+
+    ng build --prod --base-href="./"
+
+2 - Desplegar en remot
+
+    npx angular-cli-ghpages – dir=dist
