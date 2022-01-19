@@ -1,7 +1,7 @@
 {
   "name": "moviments-compte",
   "version": "0.0.0",
-  "homepage": "http://yourgithubname.github.io/yourreponame",
+  "homepage": "https://jollmat.github.io/bmoviments",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
