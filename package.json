@@ -1,6 +1,7 @@
 {
   "name": "moviments-compte",
   "version": "0.0.0",
+  "homepage": "http://yourgithubname.github.io/yourreponame",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
