@@ -26,7 +26,8 @@ export class ConceptsService {
     this.replaceableStrings = [
       ['ADEUDO RECIBO', 'REBUT']
     ];
-    this.setConceptMappers(CONCEPT_MAPPERS);
+    // this.setConceptMappers(CONCEPT_MAPPERS);
+    this.loadConceptMappers();
   }
 
   loadConceptMappers(): Observable<ConceptMapperInterface[]>{
@@ -36,6 +37,10 @@ export class ConceptsService {
       res = eval(storedData) as ConceptMapperInterface[];
     }
     this.conceptMappers = res;
+
+    if (!this.conceptMappers || this.conceptMappers.length === 0) {
+      this.setConceptMappers(CONCEPT_MAPPERS);
+    }
     return of(res);
   }
 

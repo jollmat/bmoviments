@@ -8,6 +8,8 @@ import { SessionStorageService } from 'src/app/services/session-storage.service'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FileLoadedEntity } from 'src/app/model/entities/file-loaded.entity';
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
+import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
+import { ConceptsService } from 'src/app/services/concepts.service';
 
 @Component({
   selector: 'app-bs-dashboard-header',
@@ -31,7 +33,8 @@ export class BSDashboardHeaderComponent implements OnInit {
   constructor(
     private appService: ApplicationService,
     private localStorageService: LocalStorageService,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private conceptsService: ConceptsService
   ) { }
   
   onFileLoadEmit(fileLoaded: FileLoadedInterface) {
@@ -46,8 +49,11 @@ export class BSDashboardHeaderComponent implements OnInit {
     this.onFileLoaderFinishedEmitter.emit(numFiles);
   };
 
-  onSaveConceptMappersEmit(saved: boolean) {
+  onSaveConceptMappersEmit(conceptMappersList: ConceptMapperInterface[]) {
     this.onSaveConceptMappersEmitter.emit(true);
+    this.conceptsService.setConceptMappers(conceptMappersList).subscribe(()=> {
+      this.onSaveConceptMappersEmitter.emit(false);
+    });
   }
 
   reset(): void {

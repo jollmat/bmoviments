@@ -25,9 +25,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let conceptMapper of conceptMappersList">
-                <td>{{conceptMapper.matching}}</td>
-                <td>{{conceptMapper.output}}</td>
+            <tr *ngFor="let conceptMapper of conceptMappersList; let i = index;">
+                <td>
+                    <span (click)="editConceptMapper(i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.matching}}</span>
+                    <input class="form-control" (change)="saveConceptMapper(i, 'matching', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.matching}}" [ngModel]="conceptMapper.matching" type="text" />
+                </td>
+                <td>
+                    <span (click)="editConceptMapper(i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.output}}</span>
+                    <input class="form-control" (change)="saveConceptMapper(i, 'output', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.output}}" [ngModel]="conceptMapper.output" type="text" />
+                </td>
             </tr>
         </tbody>
     </table>

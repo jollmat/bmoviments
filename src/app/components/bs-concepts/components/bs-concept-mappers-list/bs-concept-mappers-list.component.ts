@@ -20,6 +20,8 @@ export class BsConceptMappersListComponent implements OnChanges{
   @ViewChild('searchOutputInput') inputSearchOutput: ElementRef;
 
   conceptMappersList: ConceptMapperInterface[] = [];
+
+  conceptMapperEditIndex: number = -1;
   
   constructor() { }
 
@@ -41,6 +43,20 @@ export class BsConceptMappersListComponent implements OnChanges{
              (this.filterInfo.original.length > 0 && conceptMapper.matching.toLowerCase().indexOf(this.filterInfo.original.toLowerCase()) > -1) ||
              (this.filterInfo.output.length > 0 && conceptMapper.output.toLowerCase().indexOf(this.filterInfo.output.toLowerCase()) > -1)
     });
+  }
+
+  editConceptMapper(idx: number) {
+    this.conceptMapperEditIndex = idx;
+  }
+
+  saveConceptMapper(idx: number, field: string, event: Event) {
+    if (event.target['value'].length === 0) {
+      alert('El camp no pot estar buit');
+    } else {
+      this.conceptMappersList[idx][field] = event.target['value'];
+      this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
+      this.editConceptMapper(-1);
+    }
   }
 
   ngAfterViewInit() {

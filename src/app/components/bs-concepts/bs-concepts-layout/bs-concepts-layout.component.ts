@@ -20,14 +20,13 @@ export class BsConceptsLayoutComponent implements OnInit {
   loadConceptMappers(): void {
     this.conceptsService.getConceptMappers().subscribe((conceptMappers) => {
       this.conceptMappers = conceptMappers;
-      console.log(this.conceptMappers);
     });
   }
 
   saveConceptMappers(conceptMappers: ConceptMapperInterface[]) {
     this.conceptsService.setConceptMappers(conceptMappers).subscribe(() => {
       this.loadConceptMappers();
-      this.onConceptMappersChangeEmitter.emit(true);
+      // this.onConceptMappersChangeEmitter.emit(true);
     });
   }
 
