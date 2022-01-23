@@ -10,8 +10,15 @@
         </ng-container>
         <ng-container *ngIf="totalFiles === totalFilesLoaded">
             <ng-container *ngIf="totalFiles === 0">
-                <div>
-                    Selecciona els fitxers del banc
+                <div class="d-flex flex-column">
+                    <div>
+                        Selecciona els fitxers del banc
+                    </div>
+                    <div class="alert alert-info mt-4">
+                        <strong>IMPORTANT:</strong> El nom del fitxer ha de començar per "BS" (Banc Sabadell) o "CBK" (La Caixa / Caixabank).
+                        <br>
+                        Ex: CBK2021, BS2020, BS-gener2021,...
+                    </div>
                 </div>
             </ng-container>
             <ng-container *ngIf="totalFiles > 0">
