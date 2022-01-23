@@ -9,6 +9,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 import { tap } from 'rxjs/internal/operators/tap';
 import { AppUtils } from 'src/app/model/utils/app-utils';
 import { ConceptsService } from 'src/app/services/concepts.service';
+import { PrompterService } from 'src/app/services/prompter.service';
 
 @Component({
   selector: 'app-bs-search-moviments',
@@ -30,19 +31,24 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
 
   importTotal: number = 0;
 
-  constructor(private conceptsService: ConceptsService) {}
+  constructor(
+    private conceptsService: ConceptsService,
+    private prompterService: PrompterService
+  ) {}
 
   sortByDateFn(strDate: string) {
     return moment(strDate, 'DD/MM/YYYY').valueOf();
   }
 
   doFilter (sortFn: any) {
+    this.prompterService.prompt('Filtrant moviments');
     this.actionInCourseEmitter.emit(true);
     this.items = [...this.moviments].filter((m) => {
       return this.isFilteredMoviment(m);
     });
     this.items = AppUtils.sortArrayBy(this.items, 'dataOperacio', false, sortFn);
     this.filteredMovimentsEmitter.emit(this.items);
+    this.prompterService.prompt(undefined);
     this.calculateAmount();
   }
   
@@ -89,11 +95,13 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   }
 
   calculateAmount() {
+    this.prompterService.prompt('Calculant total...');
     this.importTotal = 0;
     this.items.forEach((m) => {
       this.importTotal += m.importOperacio;
     });
     this.actionInCourseEmitter.emit(false);
+    this.prompterService.prompt(undefined);
   }
 
   ngAfterViewInit() {

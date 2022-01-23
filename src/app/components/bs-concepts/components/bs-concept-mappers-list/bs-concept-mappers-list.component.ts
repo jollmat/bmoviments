@@ -4,6 +4,7 @@ import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators'
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { AppUtils } from 'src/app/model/utils/app-utils';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { PrompterService } from 'src/app/services/prompter.service';
 
 @Component({
   selector: 'app-bs-concept-mappers-list',
@@ -30,18 +31,20 @@ export class BsConceptMappersListComponent implements OnChanges{
 
   doCreate: boolean = false;
   
-  constructor() { }
+  constructor(private prompterService: PrompterService) { }
 
   sortInfo: { sortField: string, sortAsc: boolean } = { sortField: 'matching', sortAsc: false };
   filterInfo: { original: string, output: string } = { original : '', output: '' };
 
   sort(sortField?: string) {
+    this.prompterService.prompt('Ordenant conceptes...');
     if (!sortField) {
       sortField = this.sortInfo.sortField;
     }
     this.sortInfo.sortAsc = (this.sortInfo.sortField !== sortField) ? true : !this.sortInfo.sortAsc;
     this.sortInfo.sortField = sortField;
     this.conceptMappersList = AppUtils.sortArrayBy(this.conceptMappers, this.sortInfo.sortField, this.sortInfo.sortAsc);
+    this.prompterService.prompt(undefined);
   }
 
   filter() {
@@ -76,12 +79,14 @@ export class BsConceptMappersListComponent implements OnChanges{
       this.doCreate = false;
       this.newMatchingValue = '';
       this.newOutputValue = '';
+      this.prompterService.prompt('Afegit nou concepte', 3000);
     }
   }
 
   deleteConceptMapper(idx: number) {
     this.conceptMappersList.splice(idx, 1);
     this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
+    this.prompterService.prompt('Concepte el.liminat', 3000);
   }
 
   saveConceptMapper(idx: number, field: string, event: Event) {
@@ -91,6 +96,7 @@ export class BsConceptMappersListComponent implements OnChanges{
       this.conceptMappersList[idx][field] = event.target['value'].toUpperCase();
       this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
       this.editConceptMapper(-1);
+      this.prompterService.prompt('Concepte desat', 3000);
     }
   }
 

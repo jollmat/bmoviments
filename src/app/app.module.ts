@@ -35,6 +35,7 @@ import { BsConceptsLayoutComponent } from './components/bs-concepts/bs-concepts-
 import { BsConceptMappersListComponent } from './components/bs-concepts/components/bs-concept-mappers-list/bs-concept-mappers-list.component';
 import { FormsModule } from '@angular/forms';
 import { CookieModule } from 'ngx-cookie';
+import { MsgPrompterComponent } from './components/common/msg-prompter/msg-prompter.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -54,7 +55,8 @@ registerLocaleData(localeEs, 'es');
     BsMovimentsListChartComponent,
     StorageCapacityMonitorComponent,
     BsConceptsLayoutComponent,
-    BsConceptMappersListComponent
+    BsConceptMappersListComponent,
+    MsgPrompterComponent
   ],
   imports: [
     BrowserModule,
