@@ -26,7 +26,7 @@ export class BsConceptsLayoutComponent implements OnInit {
   saveConceptMappers(conceptMappers: ConceptMapperInterface[]) {
     this.conceptsService.setConceptMappers(conceptMappers).subscribe(() => {
       this.loadConceptMappers();
-      // this.onConceptMappersChangeEmitter.emit(true);
+      this.onConceptMappersChangeEmitter.emit(true);
     });
   }
 

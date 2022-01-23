@@ -1,9 +1,9 @@
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { AppUtils } from 'src/app/model/utils/app-utils';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-bs-concept-mappers-list',
@@ -22,6 +22,13 @@ export class BsConceptMappersListComponent implements OnChanges{
   conceptMappersList: ConceptMapperInterface[] = [];
 
   conceptMapperEditIndex: number = -1;
+
+  newMatchingValue: string = '';
+  newOutputValue: string = '';
+
+  faTrash = faTrash;
+
+  doCreate: boolean = false;
   
   constructor() { }
 
@@ -45,15 +52,43 @@ export class BsConceptMappersListComponent implements OnChanges{
     });
   }
 
-  editConceptMapper(idx: number) {
+  editConceptMapper(idx: number, targetId?: string) {
     this.conceptMapperEditIndex = idx;
+    if(targetId) {
+      setTimeout(() => {
+        document.getElementById(targetId).focus();
+      }, 300);      
+    }
+  }
+
+  addNewConceptMapper() {
+
+    if(this.conceptMappersList.some((_conceptMapper) => {
+      return _conceptMapper.matching === this.newMatchingValue;
+    })) {
+      alert('Concepte original ja existent!');
+    } else {
+      this.conceptMappersList.push({
+        matching: this.newMatchingValue.toUpperCase(),
+        output: this.newOutputValue.toUpperCase()
+      });
+      this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
+      this.doCreate = false;
+      this.newMatchingValue = '';
+      this.newOutputValue = '';
+    }
+  }
+
+  deleteConceptMapper(idx: number) {
+    this.conceptMappersList.splice(idx, 1);
+    this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
   }
 
   saveConceptMapper(idx: number, field: string, event: Event) {
     if (event.target['value'].length === 0) {
       alert('El camp no pot estar buit');
     } else {
-      this.conceptMappersList[idx][field] = event.target['value'];
+      this.conceptMappersList[idx][field] = event.target['value'].toUpperCase();
       this.onConceptMappersChangeEmitter.emit(this.conceptMappersList);
       this.editConceptMapper(-1);
     }

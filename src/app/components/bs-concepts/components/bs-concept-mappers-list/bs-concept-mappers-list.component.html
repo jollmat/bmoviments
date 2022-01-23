@@ -1,3 +1,17 @@
+<ng-container *ngIf="!doCreate">
+    <div class="d-flex w-100 mb-3">
+        <button class="btn btn-sm btn-primary" (click)="doCreate=true;">Nou concepte</button>
+    </div>
+</ng-container>
+<ng-container *ngIf="doCreate">
+    <div class="d-flex alert alert-info m-0 mb-3">
+        <input id="{{'matchingNew'}}" class="form-control upper" value="" type="text" [(ngModel)]="newMatchingValue" placeholder="Concepte original" />
+        <input id="{{'outputNew'}}" class="form-control upper ms-2" value="" type="text" [(ngModel)]="newOutputValue" placeholder="Concepte de sortida" />
+        <button class="btn btn-sm btn-primary ms-3" [ngClass]="{'disabled': newMatchingValue.length===0 || newOutputValue.length===0}" (click)="addNewConceptMapper()">Afegir</button>
+        <button class="btn btn-sm btn-default ms-1" (click)="doCreate=false;newMatchingValue='';newOutputValue='';">Cancel.lar</button>
+    </div>
+</ng-container>
+
 <div class="concept-mappers-list d-flex">
     <table class="table table-hover table-sm">
         <thead>
@@ -25,14 +39,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let conceptMapper of conceptMappersList; let i = index;">
+           <tr *ngFor="let conceptMapper of conceptMappersList; let i = index;">
                 <td>
-                    <span (click)="editConceptMapper(i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.matching}}</span>
-                    <input class="form-control" (change)="saveConceptMapper(i, 'matching', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.matching}}" [ngModel]="conceptMapper.matching" type="text" />
+                    <span (click)="editConceptMapper(i, 'matching' + i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.matching}}</span>
+                    <input id="{{'matching' + i}}" class="form-control upper" (blur)="editConceptMapper(-1)" (change)="saveConceptMapper(i, 'matching', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.matching}}" [ngModel]="conceptMapper.matching" type="text" />
                 </td>
                 <td>
-                    <span (click)="editConceptMapper(i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.output}}</span>
-                    <input class="form-control" (change)="saveConceptMapper(i, 'output', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.output}}" [ngModel]="conceptMapper.output" type="text" />
+                    <span (click)="editConceptMapper(i, 'output' +  i)" [hidden]="conceptMapperEditIndex===i">{{conceptMapper.output}}</span>
+                    <input id="{{'output' + i}}" class="form-control upper" (blur)="editConceptMapper(-1)" (change)="saveConceptMapper(i, 'output', $event)" [hidden]="conceptMapperEditIndex!==i" value="{{conceptMapper.output}}" [ngModel]="conceptMapper.output" type="text" />
+                </td>
+                <td>
+                    <!-- <button class="btn btn-default" (click)="deleteConceptMapper(i)">Esborrar</button> -->
+                    <fa-icon [icon]="faTrash" (click)="deleteConceptMapper(i)"></fa-icon>
                 </td>
             </tr>
         </tbody>

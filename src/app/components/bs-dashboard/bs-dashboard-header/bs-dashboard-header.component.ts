@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MovimentBSEntity } from 'src/app/model/entities/moviment-BS-entity';
 import { MovimentBSInterface } from 'src/app/model/interfaces/moviment-BS-interface';
 import { ApplicationService } from 'src/app/services/application-service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FileLoadedEntity } from 'src/app/model/entities/file-loaded.entity';
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { ConceptsService } from 'src/app/services/concepts.service';
@@ -51,9 +49,11 @@ export class BSDashboardHeaderComponent implements OnInit {
 
   onSaveConceptMappersEmit(conceptMappersList: ConceptMapperInterface[]) {
     this.onSaveConceptMappersEmitter.emit(true);
+    /*
     this.conceptsService.setConceptMappers(conceptMappersList).subscribe(()=> {
       this.onSaveConceptMappersEmitter.emit(false);
     });
+    */
   }
 
   reset(): void {

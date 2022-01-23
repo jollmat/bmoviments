@@ -11,3 +11,17 @@ th {
         font-size: 12px;
     }
 }
+
+td {
+    input {
+        padding: 0px 3px;
+        font-size: 13px;
+
+        &.upper {
+            text-transform: uppercase;
+        }
+    }
+    fa-icon {
+        cursor: pointer;
+    }
+}

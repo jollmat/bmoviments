@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CONCEPT_MAPPERS } from 'src/assets/data/bs-concept-definitions';
+import { environment } from 'src/environments/environment';
 import { MovimentBSDTO } from '../model/dtos/moviment-BS-DTO';
 import { ConceptMapperInterface } from '../model/interfaces/concept-mapper.interface';
 import { MovimentBSInterface } from '../model/interfaces/moviment-BS-interface';
@@ -26,21 +27,25 @@ export class ConceptsService {
     this.replaceableStrings = [
       ['ADEUDO RECIBO', 'REBUT']
     ];
-    // this.setConceptMappers(CONCEPT_MAPPERS);
     this.loadConceptMappers();
   }
 
   loadConceptMappers(): Observable<ConceptMapperInterface[]>{
+    console.log('loadConceptMappers()');
     const storedData = this.source.getItem(this.CONCEPT_MAPPERS_STORAGE_KEY);
     let res: ConceptMapperInterface[] = [];
     if(storedData) {
+      console.log('storedData', storedData);
       res = eval(storedData) as ConceptMapperInterface[];
+    } else if (!environment.production) {
+      res = CONCEPT_MAPPERS;
+    } else {
+      res = [];
     }
+    console.log(res);
     this.conceptMappers = res;
 
-    if (!this.conceptMappers || this.conceptMappers.length === 0) {
-      this.setConceptMappers(CONCEPT_MAPPERS);
-    }
+    this.setConceptMappers(res);
     return of(res);
   }
 
