@@ -35,14 +35,14 @@ export class ConceptsService {
     const storedData = this.source.getItem(this.CONCEPT_MAPPERS_STORAGE_KEY);
     let res: ConceptMapperInterface[] = [];
     if(storedData) {
-      console.log('storedData', storedData);
+      // console.log('storedData', storedData);
       res = eval(storedData) as ConceptMapperInterface[];
     } else if (!environment.production) {
       res = CONCEPT_MAPPERS;
     } else {
       res = [];
     }
-    console.log(res);
+    // console.log(res);
     this.conceptMappers = res;
 
     this.setConceptMappers(res);

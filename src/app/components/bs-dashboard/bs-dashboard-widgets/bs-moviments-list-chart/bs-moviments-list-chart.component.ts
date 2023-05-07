@@ -10,6 +10,7 @@ import { IncomingOutgoingChartBuilder } from 'src/app/model/chart-builders/incom
 import { BubbleIncomingOutgoingChartBuilder } from 'src/app/model/chart-builders/bubble-incoming-outgoing-chart-builder';
 import { InputOutputStackedChartBuilder } from 'src/app/model/chart-builders/input-output-stacked-chart-builder';
 import { CookieService } from 'ngx-cookie';
+import { BalanceEvolutionChartBuilder } from 'src/app/model/chart-builders/balance-evolution-chart-builder';
 
 @Component({
   selector: 'app-bs-moviments-list-chart',
@@ -54,7 +55,8 @@ export class BsMovimentsListChartComponent implements OnChanges {
     this.charts.push({text: 'Evolució ingresos/despeses (mensual)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.MONTHLY))});
     this.charts.push({text: 'Dades agrupades i proporció (bombolles)', chart: new Chart(BubbleIncomingOutgoingChartBuilder.getChartOptions(this.moviments))}); 
     this.charts.push({text: 'Dades agrupades i proporció (apilat)', chart: new Chart(InputOutputStackedChartBuilder.getChartOptions(this.moviments))});
-    this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments))});    
+    this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments))});
+    this.charts.push({text: 'Evolució del saldo (àrea apilat)', chart: new Chart(BalanceEvolutionChartBuilder.getChartOptions(this.moviments))});    
   
     if (this.filterValueType === FilterValueTypeEnum.ONE_DAY) {
       this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE))});
