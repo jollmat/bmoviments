@@ -91,7 +91,7 @@ export class BalanceEvolutionChartBuilder implements ChartBuilderInterface {
 
         // Discard series with no balance
         series = series.filter((_serie) => {
-            return _serie.data.findIndex((_balance) => _balance!=null)>=0;
+            return _serie.data.findIndex((_balance) => _balance!=null && _balance[1]!=null)>=0;
         });
 
         categories = dates.map((_date) => {
@@ -99,8 +99,9 @@ export class BalanceEvolutionChartBuilder implements ChartBuilderInterface {
         });
 
         series.forEach((_serie) => {
+            console.log(_serie);
             _serie.data = _serie.data.map((_saldo, idx) => {
-                return [categories[idx], _saldo[1]]
+                return [categories[idx], (_saldo && _saldo.length>1) ? _saldo[1] : null]
             });
         });
 
