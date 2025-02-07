@@ -42,7 +42,6 @@ export class StorageCapacityMonitorComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('StorageCapacityMonitorComponent.ngOnChanges');
     this.getStorageCurrentSize();
   }
 

@@ -37,8 +37,6 @@ export class BSDashboardLayoutComponent implements OnInit {
   ) { }
 
   configMoviments(moviments: MovimentBSDTO[]) {
-    console.log('BSDashboardLayoutComponent.configMoviments()');
-
     this.movimentsAll = [];
 
     for (let moviment of moviments) {
@@ -48,8 +46,6 @@ export class BSDashboardLayoutComponent implements OnInit {
   }
 
   getStoredMoviments() {
-    console.log('BSDashboardLayoutComponent.getStoredMoviments()');
-
     this.setActionInCourse(true);
 
     if (this.appService.isDemo()){
@@ -93,8 +89,6 @@ export class BSDashboardLayoutComponent implements OnInit {
   }
 
   onFileLoaded(fileLoaded: FileLoadedInterface) {
-    console.log('BSDashboardLayoutComponent.onFileLoaded', fileLoaded);
-
     let movimentsToSynchronize: MovimentBSDTO[] = [];
 
     if (fileLoaded.hasErrors) {

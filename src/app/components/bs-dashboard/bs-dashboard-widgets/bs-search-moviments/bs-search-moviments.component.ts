@@ -10,6 +10,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { AppUtils } from 'src/app/model/utils/app-utils';
 import { ConceptsService } from 'src/app/services/concepts.service';
 import { PrompterService } from 'src/app/services/prompter.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-bs-search-moviments',
@@ -23,8 +24,9 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   @Output() filteredMovimentsEmitter = new EventEmitter<MovimentBSEntity[]>();
   @Output() actionInCourseEmitter = new EventEmitter<boolean>();
   
-  @ViewChild('searchInput') inputSearchField: ElementRef;
+  @ViewChild('searchInput') inputSearchField;
   searchText: string = new Date().getFullYear().toString();
+  searchTextUpdate = new Subject<string>();
 
   items: MovimentBSEntity[];
   maxItems = 10000;
@@ -43,10 +45,12 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   doFilter (sortFn: any) {
     this.prompterService.prompt('Filtrant moviments');
     this.actionInCourseEmitter.emit(true);
+
     this.items = [...this.moviments].filter((m) => {
       return this.isFilteredMoviment(m);
     });
     this.items = AppUtils.sortArrayBy(this.items, 'dataOperacio', false, sortFn);
+    
     this.filteredMovimentsEmitter.emit(this.items);
     this.prompterService.prompt(undefined);
     this.calculateAmount();
@@ -105,19 +109,12 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    fromEvent(this.inputSearchField.nativeElement,'keyup')
-        .pipe(
-            filter(Boolean),
-            debounceTime(350),
-            distinctUntilChanged(),
-            tap((text) => {
-              if (this.inputSearchField.nativeElement.value.length >= 2 || this.inputSearchField.nativeElement.value.length === 0) {
-                this.searchText = this.inputSearchField.nativeElement.value;
-                this.doFilter(this.sortByDateFn);
-              }
-            })
-        )
-        .subscribe();
+    this.searchTextUpdate.pipe(
+      debounceTime(600),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.doFilter(this.sortByDateFn);
+      });
   }
 
 }

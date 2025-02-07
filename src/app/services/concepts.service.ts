@@ -31,7 +31,6 @@ export class ConceptsService {
   }
 
   loadConceptMappers(): Observable<ConceptMapperInterface[]>{
-    console.log('loadConceptMappers()');
     const storedData = this.source.getItem(this.CONCEPT_MAPPERS_STORAGE_KEY);
     let res: ConceptMapperInterface[] = [];
     if(storedData) {

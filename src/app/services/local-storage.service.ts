@@ -15,7 +15,6 @@ export class LocalStorageService {
     ) { }
 
   getMoviments(): Observable<MovimentBSDTO[]> {
-    console.log(' -> LocalStorageService.getMoviments()');
     let localMovimentsStr = localStorage.getItem(this.appService.getStorageKey());
     if (localMovimentsStr) {
       let localMoviments = eval(localMovimentsStr) as MovimentBSDTO[];
@@ -32,7 +31,6 @@ export class LocalStorageService {
   }
 
   updateMoviments(moviments: MovimentBSDTO[]): Observable<boolean> {
-    console.log(' -> LocalStorageService.updateMoviments()');
     moviments = this.appService.excludeIgnoredMoviments(moviments);
     moviments = moviments.map((m) => {
       this.conceptsService.applyConceptMapper(m);
@@ -43,7 +41,6 @@ export class LocalStorageService {
   }
 
   deleteMoviment(movimentId: string): Observable<boolean> {
-    console.log(' -> LocalStorageService.deleteMoviment(' + movimentId + ')');
     let localMovimentsStr = localStorage.getItem(this.appService.getStorageKey());
     if (localMovimentsStr) {
       const localMoviments = eval(localMovimentsStr) as MovimentBSDTO[];
@@ -63,7 +60,6 @@ export class LocalStorageService {
   }
 
   deleteMoviments(movimentsId: string[]): Observable<boolean> {
-    console.log(' -> LocalStorageService.deleteMoviments()', movimentsId);
     let localMovimentsStr = localStorage.getItem(this.appService.getStorageKey());
     if (localMovimentsStr) {
       const localMoviments = eval(localMovimentsStr) as MovimentBSDTO[];
@@ -78,7 +74,6 @@ export class LocalStorageService {
   }
 
   removeAllMoviments(): Observable<boolean> {
-    console.log(' -> LocalStorageService.removeAllMoviments()');
     localStorage.removeItem(this.appService.getStorageKey());
     return of(true);
   }

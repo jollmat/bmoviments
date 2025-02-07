@@ -62,7 +62,6 @@ export class BsMovimentsListChartComponent implements OnChanges {
       this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE))});
       this.charts.push({text: 'Despeses dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.NEGATIVE))});
     }
-    console.log(this.charts);
   }
 
   selectChartIndex(idx: number): void {

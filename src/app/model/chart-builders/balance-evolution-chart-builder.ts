@@ -16,8 +16,6 @@ export class BalanceEvolutionChartBuilder implements ChartBuilderInterface {
             categories: number[]
         } = BalanceEvolutionChartBuilder.getProcessedData(moviments);
 
-        console.log(data);
-
         return  {
             chart: {
                 type: 'area'
@@ -99,7 +97,6 @@ export class BalanceEvolutionChartBuilder implements ChartBuilderInterface {
         });
 
         series.forEach((_serie) => {
-            console.log(_serie);
             _serie.data = _serie.data.map((_saldo, idx) => {
                 return [categories[idx], (_saldo && _saldo.length>1) ? _saldo[1] : null]
             });
