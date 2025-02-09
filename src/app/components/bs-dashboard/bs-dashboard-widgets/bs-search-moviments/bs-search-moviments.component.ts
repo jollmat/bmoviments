@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MovimentBSEntity } from 'src/app/model/entities/moviment-BS-entity';
 
 import * as moment from 'moment';
@@ -11,6 +11,7 @@ import { AppUtils } from 'src/app/model/utils/app-utils';
 import { ConceptsService } from 'src/app/services/concepts.service';
 import { PrompterService } from 'src/app/services/prompter.service';
 import { Subject } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application-service';
 
 @Component({
   selector: 'app-bs-search-moviments',
@@ -22,8 +23,7 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   @Input() moviments: MovimentBSEntity[];
 
   @Output() filteredMovimentsEmitter = new EventEmitter<MovimentBSEntity[]>();
-  @Output() actionInCourseEmitter = new EventEmitter<boolean>();
-  
+   
   @ViewChild('searchInput') inputSearchField;
   @Input() searchText: string = '';
   searchTextUpdate = new Subject<string>();
@@ -35,7 +35,8 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
 
   constructor(
     private conceptsService: ConceptsService,
-    private prompterService: PrompterService
+    private prompterService: PrompterService,
+    private appService: ApplicationService
   ) {}
 
   sortByDateFn(strDate: string) {
@@ -43,9 +44,8 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   }
 
   doFilter (sortFn: any) {
-    console.log('doFilter', this.searchText);
     this.prompterService.prompt('Filtrant moviments');
-    this.actionInCourseEmitter.emit(true);
+    this.appService.actionInCourse$.next(true);
 
     this.items = [...this.moviments].filter((m) => {
       return this.isFilteredMoviment(m);
@@ -54,6 +54,7 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
     
     this.filteredMovimentsEmitter.emit(this.items);
     this.prompterService.prompt(undefined);
+
     this.calculateAmount();
   }
   
@@ -104,15 +105,16 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
 
   calculateAmount() {
     this.prompterService.prompt('Calculant total...');
+    this.appService.actionInCourse$.next(true);
     this.importTotal = 0;
     this.items.forEach((m) => {
       this.importTotal += m.importOperacio;
     });
-    this.actionInCourseEmitter.emit(false);
+    this.appService.actionInCourse$.next(false);
     this.prompterService.prompt(undefined);
   }
 
-  ngAfterViewInit() {
+ ngAfterViewInit() {
     this.searchTextUpdate.pipe(
       debounceTime(600),
       distinctUntilChanged())

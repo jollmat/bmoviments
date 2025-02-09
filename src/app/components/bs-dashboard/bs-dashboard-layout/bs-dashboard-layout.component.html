@@ -7,20 +7,18 @@
             (onResetDemoEmitter)="getStoredMoviments()"
             (onSaveConceptMappersEmitter)="getStoredMoviments()"
             (onFilterEmitter)="doFilter($event)"
-            [(actionInCourse)]="actionInCourse"
             [moviments]="movimentsAll">
         </app-bs-dashboard-header>
     </div>
 
     <ng-container *ngIf="searchText!==undefined && movimentsAll && movimentsAll.length > 0">
-        <div class="dashboard-content px-3 pt-4 pb-2">
+        <div class="dashboard-content px-3 pt-4 pb-2" [ngClass]="{'op-50':actionInCourse}">
             <div class="row">
                 <div class="col-4">
                     <app-bs-search-moviments
                         [moviments]="movimentsAll"
                         [searchText]="searchText"
-                        (filteredMovimentsEmitter)="setFilteredMoviments($event)"
-                        (actionInCourseEmitter)="setActionInCourse($event)">
+                        (filteredMovimentsEmitter)="setFilteredMoviments($event)">
                     </app-bs-search-moviments>
                 </div>
                 <div class="col-5">

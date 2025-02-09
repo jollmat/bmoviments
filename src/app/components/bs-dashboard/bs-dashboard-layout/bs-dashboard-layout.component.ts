@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SnotifyService } from 'ng-snotify';
 import { MovimentBSDTO } from 'src/app/model/dtos/moviment-BS-DTO';
 import { MovimentBSEntity } from 'src/app/model/entities/moviment-BS-entity';
@@ -10,23 +10,27 @@ import * as uuid from 'uuid';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 import { ConceptsService } from 'src/app/services/concepts.service';
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bs-dashboard-layout',
   templateUrl: './bs-dashboard-layout.component.html',
   styleUrls: ['./bs-dashboard-layout.component.scss']
 })
-export class BSDashboardLayoutComponent implements OnInit {
+export class BSDashboardLayoutComponent implements OnInit, OnDestroy {
 
   movimentsAll: MovimentBSEntity[] = [];
   movimentsFiltrats: MovimentBSEntity[] = [];
 
+  actionInCourseSubscription?: Subscription;
   actionInCourse = false;
 
   loadFilesTotal: number = 0;
   loadedFilesTotal: number = 0;
   addedMovimentsTotal: number = 0;
   duplicatedMovimentsFoundTotal: number = 0;
+
+  loadMovimentsSubscription?: Subscription;
 
   searchText!: string;
 
@@ -51,11 +55,11 @@ export class BSDashboardLayoutComponent implements OnInit {
     this.setActionInCourse(true);
 
     if (this.appService.isDemo()){
-      this.sessionStorageService.getMoviments().subscribe((sessionStorageMoviments) => {
+      this.loadMovimentsSubscription = this.sessionStorageService.getMoviments().subscribe((sessionStorageMoviments) => {
         this.configMoviments(sessionStorageMoviments);
       });
     } else {
-      this.localStorageService.getMoviments().subscribe((localStorageMoviments) => {
+      this.loadMovimentsSubscription = this.localStorageService.getMoviments().subscribe((localStorageMoviments) => {
         this.configMoviments(localStorageMoviments);
       });
     }
@@ -160,14 +164,27 @@ export class BSDashboardLayoutComponent implements OnInit {
 
   setFilteredMoviments(movimentsFiltrats: MovimentBSEntity[]) {
     this.movimentsFiltrats = movimentsFiltrats;
+    this.setActionInCourse(false);
   }
 
   setActionInCourse(actionInCourse: boolean): void {
-    this.actionInCourse = actionInCourse;
+    this.appService.actionInCourse$.next(actionInCourse);
   }
 
   ngOnInit(): void {
     this.getStoredMoviments();
+    this.actionInCourseSubscription = this.appService.actionInCourse$.subscribe((_actionInCourse) => { 
+      this.actionInCourse = _actionInCourse;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.loadMovimentsSubscription) {
+      this.loadMovimentsSubscription.unsubscribe();
+    }
+    if (this.actionInCourseSubscription) {
+      this.actionInCourseSubscription.unsubscribe();
+    }
   }
 
 }

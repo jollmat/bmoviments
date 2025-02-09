@@ -8,15 +8,15 @@
     <div class="d-flex justify-content-end align-items-center">
 
       <!-- Search field -->
+      <i *ngIf="actionInCourse" class="fa fa-spinner fa-spin me-2"></i>
       <input type="text" 
-        class="form-control search-input me-3" 
+        class="form-control search-input me-3 py-1" 
         title="Cerca per data, concepte o import" 
         placeholder="Data, concepte o import"
         (ngModelChange)="this.searchTextUpdate.next($event)"
         [(ngModel)]="searchText"
         [readOnly]="actionInCourse"
         #searchInput>
-        <i class="fas fa-spinner fa-spin text-danger"></i>
         <!-- Search field -->
 
       <!-- Totals + page options -->

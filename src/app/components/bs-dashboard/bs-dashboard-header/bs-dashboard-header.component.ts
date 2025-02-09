@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MovimentBSInterface } from 'src/app/model/interfaces/moviment-BS-interface';
 import { ApplicationService } from 'src/app/services/application-service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -7,7 +7,7 @@ import { SessionStorageService } from 'src/app/services/session-storage.service'
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { ConceptsService } from 'src/app/services/concepts.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -15,10 +15,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './bs-dashboard-header.component.html',
   styleUrls: ['./bs-dashboard-header.component.scss']
 })
-export class BSDashboardHeaderComponent implements OnInit, AfterViewInit {
+export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() moviments: MovimentBSInterface[];
-  @Input() actionInCourse: boolean = false;
 
   @Output() onFileLoadedEmitter = new EventEmitter<FileLoadedInterface>();
   @Output() onFileLoaderStartedEmitter = new EventEmitter<number>(); // Emits total files number
@@ -32,13 +31,15 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit {
   searchText: string = new Date().getFullYear().toString();
   searchTextUpdate = new Subject<string>();
 
+  actionInCourseSubscription?: Subscription;
+  actionInCourse = true;
+
   isDemo = false;
 
   constructor(
     private appService: ApplicationService,
     private localStorageService: LocalStorageService,
-    private sessionStorageService: SessionStorageService,
-    private conceptsService: ConceptsService
+    private sessionStorageService: SessionStorageService
   ) { }
   
   onFileLoadEmit(fileLoaded: FileLoadedInterface) {
@@ -55,11 +56,6 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit {
 
   onSaveConceptMappersEmit(conceptMappersList: ConceptMapperInterface[]) {
     this.onSaveConceptMappersEmitter.emit(true);
-    /*
-    this.conceptsService.setConceptMappers(conceptMappersList).subscribe(()=> {
-      this.onSaveConceptMappersEmitter.emit(false);
-    });
-    */
   }
 
   reset(): void {
@@ -78,17 +74,27 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isDemo = this.appService.isDemo();
+    this.actionInCourseSubscription = this.appService.actionInCourse$.subscribe((_actionInCourse) => {
+      this.actionInCourse = _actionInCourse;
+    });
   }
 
   ngAfterViewInit() {
-      this.searchTextUpdate.pipe(
-        debounceTime(600),
-        distinctUntilChanged())
-        .subscribe(value => {
-          this.onFilterEmitter.emit(value);
-        });
+    this.searchTextUpdate.pipe(
+      debounceTime(600),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.appService.actionInCourse$.next(true);
+        this.onFilterEmitter.emit(value);
+      });
+      this.appService.actionInCourse$.next(true);
+    this.onFilterEmitter.emit(this.searchText);
+  }
 
-      this.onFilterEmitter.emit(this.searchText);
+  ngOnDestroy(): void {
+    if (this.actionInCourseSubscription) {
+      this.actionInCourseSubscription.unsubscribe();
+    }
   }
   
 }

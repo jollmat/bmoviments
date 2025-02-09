@@ -4,29 +4,29 @@
     
     <div class="w-100" id="tableContainer" #tableContainer>
         <table class="table table-sm w-100" [ngClass]="{'table-bordered': showBorder, 'table-hover': showHover}">
-        <thead *ngIf="showHeader">
-            <tr>
-                <th>Data</th>
-                <th *ngIf="showBankEntitySymbol">Entitat</th>
-                <th>Moviment</th>
-                <th>Import</th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container *ngFor="let moviment of moviments">
+            <thead *ngIf="showHeader">
                 <tr>
-                    <td>{{moviment.dataOperacio}}</td>
-                    <td *ngIf="showBankEntitySymbol">
-                        <span class="badge bankEntity {{moviment.bankEntitySymbol}} fw-normal">{{moviment.bankEntitySymbol}}</span>
-                    </td>
-                    <td class="fw-bold" title="{{moviment.concepteOriginal}}">{{moviment.concepte}}</td>
-                    <td class="fw-bold text-end"
-                        [ngClass]="{'text-danger': moviment.importOperacio < 0, 'text-success': moviment.importOperacio > 0}">
-                        {{moviment.importOperacio | number:'1.2':'es'}}
-                    </td>
+                    <th>Data</th>
+                    <th *ngIf="showBankEntitySymbol">Entitat</th>
+                    <th>Moviment</th>
+                    <th>Import</th>
                 </tr>
-            </ng-container>
-        </tbody>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let moviment of moviments">
+                    <tr>
+                        <td>{{moviment.dataOperacio}}</td>
+                        <td *ngIf="showBankEntitySymbol">
+                            <span class="badge bankEntity {{moviment.bankEntitySymbol}} fw-normal">{{moviment.bankEntitySymbol}}</span>
+                        </td>
+                        <td class="fw-bold" title="{{moviment.concepteOriginal}}">{{moviment.concepte}}</td>
+                        <td class="fw-bold text-end"
+                            [ngClass]="{'text-danger': moviment.importOperacio < 0, 'text-success': moviment.importOperacio > 0}">
+                            {{moviment.importOperacio | number:'1.2':'es'}}
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
         </table>
     </div>
     

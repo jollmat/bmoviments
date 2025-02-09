@@ -3,9 +3,19 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~ng-snotify/styles/material.scss";
 
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+
+body {
+    overflow-y: hidden;
+}
+
 
 input[type=file] {
     border: 0;
+}
+
+.op-50 {
+    opacity: .5;
 }
 
 table {

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IGNORED_CONCEPTS } from '../model/constants/ignored-concepts.constant';
 import { MovimentBSInterface } from '../model/interfaces/moviment-BS-interface';
 import { MovimentBSDTO } from '../model/dtos/moviment-BS-DTO';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class ApplicationService {
     replaceableStrings: Array<string[]>;
     removableStrings: string[];
     demoMode: boolean = false;
+
+    actionInCourse$ = new BehaviorSubject<boolean>(false);
 
     constructor(public http: HttpClient) {
 

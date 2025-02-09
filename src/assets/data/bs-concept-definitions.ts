@@ -58,6 +58,7 @@ export const CONCEPT_MAPPERS: ConceptMapperInterface[] = [
     { matching:'YA GROUP-SITGES', output:'REDBAR SITGES' },
     { matching:'NOELIA FERNANDEZ MENDEZ', output:'LLOGUER PIS RIBES' },
     { matching:'ALBERTO PEREZ LECHUGA', output:'LLOGUER PIS RIBES' },
+    { matching:'RIBES ROIG', output:'RIBES ROIG SERVEIS IMMOBILIARIS, S.L.' },
 
 
     // COMPTE COMÚ BS
