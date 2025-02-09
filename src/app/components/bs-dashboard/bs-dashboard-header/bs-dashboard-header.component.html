@@ -5,25 +5,42 @@
             <span class="demo-badge badge bg-warning text-dark ms-2">Demo mode</span>
         </div>
     </div>
-    <div class="d-flex align-items-center">
+    <div class="d-flex justify-content-end align-items-center">
+
+      <!-- Search field -->
+      <input type="text" 
+        class="form-control search-input me-3" 
+        title="Cerca per data, concepte o import" 
+        placeholder="Data, concepte o import"
+        (ngModelChange)="this.searchTextUpdate.next($event)"
+        [(ngModel)]="searchText"
+        [readOnly]="actionInCourse"
+        #searchInput>
+        <i class="fas fa-spinner fa-spin text-danger"></i>
+        <!-- Search field -->
+
+      <!-- Totals + page options -->
+      <div class="d-flex align-items-center justify-content-end">
         <div class="me-4">Total moviments: <span *ngIf="moviments">{{moviments.length | number:'1.0':'es'}}</span></div>
         <div class="dropdown">
-            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                <fa-icon [icon]="faBars"></fa-icon>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#importModal" href="#">Importar moviments</a>
-              </li>
-              <li>
-                <a class="dropdown-item" (click)="reset()" href="javascript://">Reset moviments</a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#conceptesMappersModal" href="#">Gestió de conceptes</a>
-              </li>
-            </ul>
-          </div>
+          <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Accions
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#importModal" href="#">Importar moviments</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="reset()" href="javascript://">Reset moviments</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#conceptesMappersModal" href="#">Gestió de conceptes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End Totals + page options -->
     </div>
 </div>
   

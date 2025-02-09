@@ -25,7 +25,7 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   @Output() actionInCourseEmitter = new EventEmitter<boolean>();
   
   @ViewChild('searchInput') inputSearchField;
-  searchText: string = new Date().getFullYear().toString();
+  @Input() searchText: string = '';
   searchTextUpdate = new Subject<string>();
 
   items: MovimentBSEntity[];
@@ -43,6 +43,7 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   }
 
   doFilter (sortFn: any) {
+    console.log('doFilter', this.searchText);
     this.prompterService.prompt('Filtrant moviments');
     this.actionInCourseEmitter.emit(true);
 
@@ -59,6 +60,9 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.moviments?.currentValue) {
       this.doFilter (this.sortByDateFn);
+    }
+    if (changes?.searchText?.currentValue) {
+      this.searchTextUpdate.next(changes.searchText.currentValue);
     }
   }
 

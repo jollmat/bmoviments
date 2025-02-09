@@ -28,6 +28,8 @@ export class BSDashboardLayoutComponent implements OnInit {
   addedMovimentsTotal: number = 0;
   duplicatedMovimentsFoundTotal: number = 0;
 
+  searchText!: string;
+
   constructor(
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
@@ -150,6 +152,10 @@ export class BSDashboardLayoutComponent implements OnInit {
       storedMoviment.concepte === m.concepte && 
       storedMoviment.importOperacio === m.importOperacio;
     }) > -1;
+  }
+
+  doFilter(searchText: string) {
+    this.searchText = searchText;
   }
 
   setFilteredMoviments(movimentsFiltrats: MovimentBSEntity[]) {

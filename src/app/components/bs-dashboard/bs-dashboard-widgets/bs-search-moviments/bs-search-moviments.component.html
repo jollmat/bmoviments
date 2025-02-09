@@ -1,6 +1,8 @@
 <div class="card">
-    <div class="card-body px-0 pb-0">
-        <div class="d-flex justify-content-start align-items-center w-100">
+    <div class="card-body px-0 pb-0 pt-2">
+        <div class="d-flex flex-column justify-content-start align-items-center w-100">
+
+            <!--
             <div class="d-flex justify-content-start">
                 <h5 class="card-title ps-2 me-2">Cerca</h5>
             </div>
@@ -14,10 +16,13 @@
                     #searchInput>
                     
             </div>
-            
-            <div class="amount me-2 ms-auto"
-                [ngClass]="{'text-danger': importTotal < 0, 'text-success': importTotal > 0}">
-                {{importTotal | number:'1.2':'es'}}
+            -->
+            <div class="d-flex justify-content-between align-items-center w-100 px-2 py-2 amount">
+                <h3>Resultats cerca</h3>
+                <div>
+                    <span class="me-2">Balanç: </span>
+                    <span [ngClass]="{'text-danger': importTotal < 0, 'text-success': importTotal > 0}">{{importTotal | number:'1.2':'es'}}</span>
+                </div>
             </div>
         </div>
         <p class="card-text">
