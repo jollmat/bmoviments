@@ -3,7 +3,6 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { AppUtils } from 'src/app/model/utils/app-utils';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { PrompterService } from 'src/app/services/prompter.service';
 
 @Component({
@@ -26,8 +25,6 @@ export class BsConceptMappersListComponent implements OnChanges{
 
   newMatchingValue: string = '';
   newOutputValue: string = '';
-
-  faTrash = faTrash;
 
   doCreate: boolean = false;
   

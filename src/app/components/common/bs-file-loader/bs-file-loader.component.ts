@@ -4,8 +4,6 @@ import { MovimentBSEntity } from 'src/app/model/entities/moviment-BS-entity';
 import { MovimentBSInterface } from 'src/app/model/interfaces/moviment-BS-interface';
 import { AppUtils } from 'src/app/model/utils/app-utils';
 
-import { faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
-
 import * as XLSX from 'xlsx';
 import { ConceptsService } from 'src/app/services/concepts.service';
 import { BankEntityInterface } from 'src/app/model/interfaces/bank-entity.interface';
@@ -22,9 +20,6 @@ type AOA = any[][];
   styleUrls: ['./bs-file-loader.component.scss']
 })
 export class BSFileLoaderComponent {
-
-  faCheck = faCheck;
-  faSpinner = faSpinner;
 
   @Output() onFileLoadedEmitter = new EventEmitter< FileLoadedInterface>();
   @Output() onFileLoaderStartedEmitter = new EventEmitter<number>(); // Emits total files number

@@ -2,8 +2,6 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { MovimentBSEntity } from 'src/app/model/entities/moviment-BS-entity';
 import { ApplicationService } from 'src/app/services/application-service';
 
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
-
 @Component({
   selector: 'app-storage-capacity-monitor',
   templateUrl: './storage-capacity-monitor.component.html',
@@ -15,8 +13,6 @@ export class StorageCapacityMonitorComponent implements OnChanges {
 
   maxSize = 5; // Mb
   currentSize = 0;
-
-  faCircle = faCircle;
 
   constructor(
     private appService: ApplicationService

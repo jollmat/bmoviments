@@ -12,7 +12,7 @@
         </app-bs-dashboard-header>
     </div>
 
-    <ng-container *ngIf="searchText && movimentsAll && movimentsAll.length > 0">
+    <ng-container *ngIf="searchText!==undefined && movimentsAll && movimentsAll.length > 0">
         <div class="dashboard-content px-3 pt-4 pb-2">
             <div class="row">
                 <div class="col-4">

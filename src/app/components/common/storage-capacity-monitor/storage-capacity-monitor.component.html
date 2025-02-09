@@ -1,6 +1,6 @@
 <div class="storage-capacity">
     Used space: <span class="fw-bold">{{currentSize | number:'1.2':'es'}}</span> of <span class="fw-bold">5Mb</span>
     <span class="ms-2" [ngClass]="{'text-success': currentSize<(maxSize/2), 'text-warning': currentSize>(maxSize/2) && currentSize<(maxSize-1), 'text-danger': currentSize>(maxSize/2) && currentSize<(maxSize-1)}">
-        <fa-icon [icon]="faCircle"></fa-icon>
+       
     </span>
 </div>

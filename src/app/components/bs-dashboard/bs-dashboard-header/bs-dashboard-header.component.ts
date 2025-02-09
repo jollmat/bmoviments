@@ -4,7 +4,6 @@ import { ApplicationService } from 'src/app/services/application-service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
 import { ConceptMapperInterface } from 'src/app/model/interfaces/concept-mapper.interface';
 import { ConceptsService } from 'src/app/services/concepts.service';
@@ -34,8 +33,6 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit {
   searchTextUpdate = new Subject<string>();
 
   isDemo = false;
-
-  faBars = faBars;
 
   constructor(
     private appService: ApplicationService,
