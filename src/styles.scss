@@ -9,13 +9,8 @@ body {
     overflow-y: hidden;
 }
 
-
 input[type=file] {
     border: 0;
-}
-
-.op-50 {
-    opacity: .5;
 }
 
 table {
@@ -72,6 +67,14 @@ table {
 .loading {
     opacity: 0.6;
     cursor: progress;
+}
+
+.op-50 {
+    opacity: .5;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
 }
 
 /* Importing Bootstrap SCSS file. */

@@ -19,7 +19,7 @@
                         <td *ngIf="showBankEntitySymbol">
                             <span class="badge bankEntity {{moviment.bankEntitySymbol}} fw-normal">{{moviment.bankEntitySymbol}}</span>
                         </td>
-                        <td class="fw-bold" title="{{moviment.concepteOriginal}}">{{moviment.concepte}}</td>
+                        <td class="fw-bold cursor-pointer" title="{{moviment.concepteOriginal}}" (dblclick)="updateSearchText(moviment.concepte)">{{moviment.concepte}}</td>
                         <td class="fw-bold text-end"
                             [ngClass]="{'text-danger': moviment.importOperacio < 0, 'text-success': moviment.importOperacio > 0}">
                             {{moviment.importOperacio | number:'1.2':'es'}}

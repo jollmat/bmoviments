@@ -8,7 +8,7 @@
                     {{charts[selectedChartIndex].text}}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li *ngFor="let chart of charts; let i = index;" (click)="selectChartIndex(i);"><a class="dropdown-item" href="#">{{chart.text}}</a></li>
+                    <li *ngFor="let chart of charts; let i = index;" (click)="selectChartIndex(i, chart.storeable);"><a class="dropdown-item" href="#">{{chart.text}}</a></li>
                 </ul>
             </div>
 

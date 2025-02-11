@@ -34,6 +34,8 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDest
   actionInCourseSubscription?: Subscription;
   actionInCourse = true;
 
+  searchTextChangeSubscription?: Subscription;
+
   isDemo = false;
 
   constructor(
@@ -77,15 +79,25 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDest
     this.actionInCourseSubscription = this.appService.actionInCourse$.subscribe((_actionInCourse) => {
       this.actionInCourse = _actionInCourse;
     });
+    this.searchTextChangeSubscription = this.appService.searchText$.subscribe((_searchText) => {
+      console.log('SearchText to change', _searchText);
+      if (_searchText.length>0){
+        this.searchText = _searchText;
+        this.appService.actionInCourse$.next(true);
+        this.onFilterEmitter.emit(_searchText);
+      }
+    });
   }
 
   ngAfterViewInit() {
     this.searchTextUpdate.pipe(
-      debounceTime(600),
+      debounceTime(1000),
       distinctUntilChanged())
       .subscribe(value => {
-        this.appService.actionInCourse$.next(true);
-        this.onFilterEmitter.emit(value);
+        if (value.length>0) {
+          this.appService.actionInCourse$.next(true);
+          this.onFilterEmitter.emit(value);
+        }
       });
       this.appService.actionInCourse$.next(true);
     this.onFilterEmitter.emit(this.searchText);
@@ -94,6 +106,9 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDest
   ngOnDestroy(): void {
     if (this.actionInCourseSubscription) {
       this.actionInCourseSubscription.unsubscribe();
+    }
+    if (this.searchTextChangeSubscription) {
+      this.searchTextChangeSubscription.unsubscribe();
     }
   }
   

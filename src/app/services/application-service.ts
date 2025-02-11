@@ -16,6 +16,8 @@ export class ApplicationService {
 
     actionInCourse$ = new BehaviorSubject<boolean>(false);
 
+    searchText$ = new BehaviorSubject<string>('');
+
     constructor(public http: HttpClient) {
 
         this.replaceableStrings = [

@@ -11,6 +11,7 @@ import { BubbleIncomingOutgoingChartBuilder } from 'src/app/model/chart-builders
 import { InputOutputStackedChartBuilder } from 'src/app/model/chart-builders/input-output-stacked-chart-builder';
 import { CookieService } from 'ngx-cookie';
 import { BalanceEvolutionChartBuilder } from 'src/app/model/chart-builders/balance-evolution-chart-builder';
+import { BalanceComparisonInteranualChartBuilder } from 'src/app/model/chart-builders/balance-comparison-interanual-chart-builder';
 
 @Component({
   selector: 'app-bs-moviments-list-chart',
@@ -21,10 +22,12 @@ export class BsMovimentsListChartComponent implements OnChanges {
 
   @Input()
   moviments: MovimentBSInterface[] = [];
+  @Input()
+  anys: number[] = [];
 
   filterValueType: FilterValueTypeEnum = FilterValueTypeEnum.NONE;
 
-  charts: {text: string, chart: Chart}[] = [];
+  charts: {text: string, chart: Chart, storeable: boolean}[] = [];
 
   selectedChartIndex: number = 0;
 
@@ -51,27 +54,32 @@ export class BsMovimentsListChartComponent implements OnChanges {
   }
 
   renderCharts() {
-    this.charts.push({text: 'Evolució ingresos/despeses (diari)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.DAILY))});
-    this.charts.push({text: 'Evolució ingresos/despeses (mensual)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.MONTHLY))});
-    this.charts.push({text: 'Dades agrupades i proporció (bombolles)', chart: new Chart(BubbleIncomingOutgoingChartBuilder.getChartOptions(this.moviments))}); 
-    this.charts.push({text: 'Dades agrupades i proporció (apilat)', chart: new Chart(InputOutputStackedChartBuilder.getChartOptions(this.moviments))});
-    this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments))});
-    this.charts.push({text: 'Evolució del saldo (àrea apilat)', chart: new Chart(BalanceEvolutionChartBuilder.getChartOptions(this.moviments))});    
-  
+    this.charts.push({text: 'Evolució ingresos/despeses (diari)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.DAILY)), storeable: true});
+    this.charts.push({text: 'Evolució ingresos/despeses (mensual)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.MONTHLY)), storeable: true});
+    this.charts.push({text: 'Dades agrupades i proporció (bombolles)', chart: new Chart(BubbleIncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true}); 
+    this.charts.push({text: 'Dades agrupades i proporció (apilat)', chart: new Chart(InputOutputStackedChartBuilder.getChartOptions(this.moviments)), storeable: true});
+    this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true});
+    this.charts.push({text: 'Evolució del saldo (àrea apilat)', chart: new Chart(BalanceEvolutionChartBuilder.getChartOptions(this.moviments)), storeable: true});  
+    
     if (this.filterValueType === FilterValueTypeEnum.ONE_DAY) {
-      this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE))});
-      this.charts.push({text: 'Despeses dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.NEGATIVE))});
+      this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE)), storeable: true});
+      this.charts.push({text: 'Despeses dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.NEGATIVE)), storeable: true});
+    }
+    if (this.anys.length>1) {
+      this.charts.push({text: 'Comparativa de saldo interanual', chart: new Chart(BalanceComparisonInteranualChartBuilder.getChartOptions(this.moviments)), storeable: false}); 
     }
   }
 
-  selectChartIndex(idx: number): void {
+  selectChartIndex(idx: number, storeable: boolean): void {
     this.selectedChartIndex = idx;
-    this.cookiesService.put('selectedChartIndex', this.selectedChartIndex.toString());
+    if (storeable) {
+      this.cookiesService.put('selectedChartIndex', this.selectedChartIndex.toString());
+    }
   }
   
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.selectChartIndex((!this.cookiesService.get('selectedChartIndex')) ? 0 : parseInt(this.cookiesService.get('selectedChartIndex')));
+    this.selectChartIndex((!this.cookiesService.get('selectedChartIndex')) ? 0 : parseInt(this.cookiesService.get('selectedChartIndex')), true);
 
     if (changes.moviments) {
      this.charts = [];

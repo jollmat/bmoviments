@@ -4,6 +4,7 @@ import { MovimentBSInterface } from 'src/app/model/interfaces/moviment-BS-interf
 
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
+import { ApplicationService } from 'src/app/services/application-service';
 
 @Component({
   selector: 'app-bs-moviments-list',
@@ -21,6 +22,10 @@ export class BSMovimentsListComponent {
 
   @ViewChild('tableContainer') content:ElementRef;
 
+  constructor(
+    private readonly appService: ApplicationService
+  ){}
+
   exportPDF() {
 
     let input = document.getElementById("tableContainer");
@@ -34,4 +39,7 @@ export class BSMovimentsListComponent {
       });
   }
 
+  updateSearchText(searchText: string) {
+    this.appService.searchText$.next(searchText);
+  }
 }

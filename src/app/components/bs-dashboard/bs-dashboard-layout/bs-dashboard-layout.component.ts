@@ -11,6 +11,7 @@ import { SessionStorageService } from 'src/app/services/session-storage.service'
 import { ConceptsService } from 'src/app/services/concepts.service';
 import { FileLoadedInterface } from 'src/app/model/interfaces/file-loaded.interface';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-bs-dashboard-layout',
@@ -21,6 +22,8 @@ export class BSDashboardLayoutComponent implements OnInit, OnDestroy {
 
   movimentsAll: MovimentBSEntity[] = [];
   movimentsFiltrats: MovimentBSEntity[] = [];
+
+  movimentsFiltratsAnys: number[] = [];
 
   actionInCourseSubscription?: Subscription;
   actionInCourse = false;
@@ -164,7 +167,18 @@ export class BSDashboardLayoutComponent implements OnInit, OnDestroy {
 
   setFilteredMoviments(movimentsFiltrats: MovimentBSEntity[]) {
     this.movimentsFiltrats = movimentsFiltrats;
+    this.checkAnysMovimentsFiltrats();
     this.setActionInCourse(false);
+  }
+
+  checkAnysMovimentsFiltrats() {
+    this.movimentsFiltratsAnys = [];
+    this.movimentsFiltrats.forEach((_moviment) => {
+      const year = moment(_moviment.dataOperacio, 'DD/MM/YYYY').get('year');
+      if (!this.movimentsFiltratsAnys.includes(year)) {
+        this.movimentsFiltratsAnys.push(year);
+      }
+    });
   }
 
   setActionInCourse(actionInCourse: boolean): void {
