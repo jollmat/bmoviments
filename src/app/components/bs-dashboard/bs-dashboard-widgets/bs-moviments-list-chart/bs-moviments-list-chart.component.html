@@ -1,24 +1,31 @@
-
-<div class="d-flex flex-column w-100">
-    
-    <div class="card">
-        <div class="card-body">
-            <div class="dropdown mb-3">
-                <button class="btn btn-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{charts[selectedChartIndex].text}}
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li *ngFor="let chart of charts; let i = index;" (click)="selectChartIndex(i, chart.storeable);"><a class="dropdown-item" href="#">{{chart.text}}</a></li>
-                </ul>
-            </div>
-
-            <div class="card-text" *ngFor="let chart of charts; let i = index;">
-                <ng-container *ngIf="selectedChartIndex === i">
-                    <div [chart]="charts[selectedChartIndex].chart" class="w-100 chart-wrapper"></div>
-                </ng-container>
+<ng-container *ngIf="charts.length>0; else noCharts">
+    <div class="d-flex flex-column w-100">
+        
+        <div class="card">
+            <div class="card-body">
+                
+                    <div class="dropdown mb-3">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{charts[selectedChartIndex].text}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li *ngFor="let chart of charts; let i = index;" (click)="selectChartIndex(i, chart.storeable);"><a class="dropdown-item" href="#">{{chart.text}}</a></li>
+                        </ul>
+                    </div>
+        
+                    <div class="card-text" *ngFor="let chart of charts; let i = index;">
+                        <ng-container *ngIf="selectedChartIndex === i">
+                            <div [chart]="charts[selectedChartIndex].chart" class="w-100 chart-wrapper"></div>
+                        </ng-container>
+                    </div>
+                
             </div>
         </div>
+            
     </div>
-        
-</div>
+</ng-container>
+
+<ng-template #noCharts>
+    <div class="alert alert-warning">No data matching filter</div>
+</ng-template>
     

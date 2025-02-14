@@ -74,13 +74,18 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDest
     }
   }
 
+  updateSearchText(value: string) {
+    if (this.searchTextUpdate){
+      this.searchTextUpdate.next(value);
+    }
+  }
+
   ngOnInit(): void {
     this.isDemo = this.appService.isDemo();
     this.actionInCourseSubscription = this.appService.actionInCourse$.subscribe((_actionInCourse) => {
       this.actionInCourse = _actionInCourse;
     });
     this.searchTextChangeSubscription = this.appService.searchText$.subscribe((_searchText) => {
-      console.log('SearchText to change', _searchText);
       if (_searchText.length>0){
         this.searchText = _searchText;
         this.appService.actionInCourse$.next(true);
@@ -99,7 +104,7 @@ export class BSDashboardHeaderComponent implements OnInit, AfterViewInit, OnDest
           this.onFilterEmitter.emit(value);
         }
       });
-      this.appService.actionInCourse$.next(true);
+    this.appService.actionInCourse$.next(true);
     this.onFilterEmitter.emit(this.searchText);
   }
 

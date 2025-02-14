@@ -50,6 +50,7 @@ export const CONCEPT_MAPPERS: ConceptMapperInterface[] = [
     { matching:'ESTANC CLARA', output:'TABAC' },
     { matching:'ESTANC MARCE', output:'TABAC' },
     { matching:'ESTANCO NUM. 6 SITGES', output:'TABAC' },
+    { matching:'ESTANCO', output:'TABAC' },
     { matching:'EL SANTO SITGES', output:'EL SANTO' },
     { matching:'FORNS ENRICH', output:'FORNS ENRICH' },
     { matching:'FORNSENRICH', output:'FORNS ENRICH' },

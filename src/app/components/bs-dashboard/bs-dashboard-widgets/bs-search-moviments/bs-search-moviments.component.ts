@@ -59,11 +59,12 @@ export class BsSearchMovimentsComponent implements OnChanges, AfterViewInit {
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.moviments?.currentValue) {
-      this.doFilter (this.sortByDateFn);
-    }
-    if (changes?.searchText?.currentValue) {
-      this.searchTextUpdate.next(changes.searchText.currentValue);
+    const value = changes?.searchText?.currentValue;
+    if (value) {
+      try{
+        // this.searchTextUpdate.next(value);
+        this.doFilter (this.sortByDateFn);
+      } catch(e){}
     }
   }
 

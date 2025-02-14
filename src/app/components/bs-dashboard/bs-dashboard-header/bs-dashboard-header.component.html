@@ -13,7 +13,7 @@
         class="form-control search-input me-3 py-1" 
         title="Cerca per data, concepte o import" 
         placeholder="Data, concepte o import"
-        (ngModelChange)="this.searchTextUpdate.next($event)"
+        (ngModelChange)="updateSearchText($event)"
         [(ngModel)]="searchText"
         [readOnly]="actionInCourse"
         #searchInput>

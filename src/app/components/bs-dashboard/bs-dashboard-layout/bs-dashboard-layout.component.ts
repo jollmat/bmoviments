@@ -24,6 +24,10 @@ export class BSDashboardLayoutComponent implements OnInit, OnDestroy {
   movimentsFiltrats: MovimentBSEntity[] = [];
 
   movimentsFiltratsAnys: number[] = [];
+  movimentsFiltratsMesos: string[] = [];
+  movimentsFiltratsDies: string[] = [];
+  movimentsFiltratIngressos: MovimentBSInterface[] = [];
+  movimentsFiltratDespeses: MovimentBSInterface[] = [];
 
   actionInCourseSubscription?: Subscription;
   actionInCourse = false;
@@ -167,16 +171,33 @@ export class BSDashboardLayoutComponent implements OnInit, OnDestroy {
 
   setFilteredMoviments(movimentsFiltrats: MovimentBSEntity[]) {
     this.movimentsFiltrats = movimentsFiltrats;
-    this.checkAnysMovimentsFiltrats();
+    this.checkMovimentsFiltrats();
     this.setActionInCourse(false);
   }
 
-  checkAnysMovimentsFiltrats() {
+  checkMovimentsFiltrats() {
     this.movimentsFiltratsAnys = [];
+    this.movimentsFiltratsMesos = [];
+    this.movimentsFiltratsDies = [];
+    this.movimentsFiltratIngressos = [];
+    this.movimentsFiltratDespeses = [];
     this.movimentsFiltrats.forEach((_moviment) => {
       const year = moment(_moviment.dataOperacio, 'DD/MM/YYYY').get('year');
+      const yearMonth = _moviment.dataOperacio.substring(3);
+      const day = _moviment.dataOperacio;
       if (!this.movimentsFiltratsAnys.includes(year)) {
         this.movimentsFiltratsAnys.push(year);
+      }
+      if (!this.movimentsFiltratsMesos.includes(yearMonth)) {
+        this.movimentsFiltratsMesos.push(yearMonth);
+      }
+      if (!this.movimentsFiltratsDies.includes(day)) {
+        this.movimentsFiltratsDies.push(day);
+      }
+      if (_moviment.importOperacio>=0) {
+        this.movimentsFiltratIngressos.push(_moviment);
+      } else {
+        this.movimentsFiltratDespeses.push(_moviment);
       }
     });
   }

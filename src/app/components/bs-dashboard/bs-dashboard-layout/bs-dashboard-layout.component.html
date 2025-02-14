@@ -11,7 +11,7 @@
         </app-bs-dashboard-header>
     </div>
 
-    <ng-container *ngIf="searchText!==undefined && movimentsAll && movimentsAll.length > 0">
+    <!--<ng-container *ngIf="searchText!==undefined && movimentsAll && movimentsAll.length > 0">-->
         <div class="dashboard-content px-3 pt-4 pb-2" [ngClass]="{'op-50':actionInCourse}">
             <div class="row">
                 <div class="col-4">
@@ -23,7 +23,12 @@
                 </div>
                 <div class="col-5">
                     <app-bs-moviments-list-chart
-                        [moviments]="movimentsFiltrats" [anys]="movimentsFiltratsAnys"></app-bs-moviments-list-chart>
+                        [moviments]="movimentsFiltrats"
+                        [ingressos]="movimentsFiltratIngressos"
+                        [despeses]="movimentsFiltratDespeses"
+                        [dies]="movimentsFiltratsDies"
+                        [mesos]="movimentsFiltratsMesos" 
+                        [anys]="movimentsFiltratsAnys"></app-bs-moviments-list-chart>
                 </div>
                 <div class="col-3">
                     <div class="w-100">
@@ -44,7 +49,7 @@
                 </div>
             </div>    
         </div>
-    </ng-container>
+    <!--</ng-container>-->
 
     <ng-container *ngIf="movimentsAll && movimentsAll.length === 0">
         <div class="dashboard-content px-3 pt-4 pb-2">

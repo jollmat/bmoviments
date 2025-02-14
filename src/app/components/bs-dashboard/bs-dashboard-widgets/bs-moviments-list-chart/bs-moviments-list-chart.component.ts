@@ -24,6 +24,14 @@ export class BsMovimentsListChartComponent implements OnChanges {
   moviments: MovimentBSInterface[] = [];
   @Input()
   anys: number[] = [];
+  @Input()
+  mesos: string[] = [];
+  @Input()
+  dies: string[] = [];
+  @Input()
+  ingressos: MovimentBSInterface[] = [];
+  @Input()
+  despeses: MovimentBSInterface[] = [];
 
   filterValueType: FilterValueTypeEnum = FilterValueTypeEnum.NONE;
 
@@ -33,41 +41,35 @@ export class BsMovimentsListChartComponent implements OnChanges {
 
   constructor(private cookiesService: CookieService) { }
 
-  checkFilterValueChartType() {
-    if (this.moviments.length > 0) {  
-      const days: string[] = [];
-      for (let i=0; i < this.moviments.length; i++) {
-        if (days.indexOf(this.moviments[i].dataOperacio) === -1) {
-          days.push(this.moviments[i].dataOperacio);
-        }
-        if (days.length > 1) {
-          this.filterValueType = FilterValueTypeEnum.PERIOD;
-          break;
-        }
-      }
-      if (days.length === 1) {
-        this.filterValueType = FilterValueTypeEnum.ONE_DAY;
-      }
-    } else {
-      this.filterValueType = FilterValueTypeEnum.NONE;
-    }
-  }
-
   renderCharts() {
-    this.charts.push({text: 'Evolució ingresos/despeses (diari)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.DAILY)), storeable: true});
-    this.charts.push({text: 'Evolució ingresos/despeses (mensual)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.MONTHLY)), storeable: true});
-    this.charts.push({text: 'Dades agrupades i proporció (bombolles)', chart: new Chart(BubbleIncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true}); 
-    this.charts.push({text: 'Dades agrupades i proporció (apilat)', chart: new Chart(InputOutputStackedChartBuilder.getChartOptions(this.moviments)), storeable: true});
-    this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true});
-    this.charts.push({text: 'Evolució del saldo (àrea apilat)', chart: new Chart(BalanceEvolutionChartBuilder.getChartOptions(this.moviments)), storeable: true});  
-    
-    if (this.filterValueType === FilterValueTypeEnum.ONE_DAY) {
-      this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE)), storeable: true});
-      this.charts.push({text: 'Despeses dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.NEGATIVE)), storeable: true});
+    this.charts = [];
+    if (this.dies.length>0) {
+      this.charts.push({text: 'Evolució ingresos/despeses (diari)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.DAILY)), storeable: true});
+      this.charts.push({text: 'Dades agrupades i proporció (bombolles)', chart: new Chart(BubbleIncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true}); 
+      this.charts.push({text: 'Dades agrupades i proporció (apilat)', chart: new Chart(InputOutputStackedChartBuilder.getChartOptions(this.moviments)), storeable: true});
+      this.charts.push({text: 'Ingressos vs despeses (pastís)', chart: new Chart(IncomingOutgoingChartBuilder.getChartOptions(this.moviments)), storeable: true});
+      this.charts.push({text: 'Evolució del saldo (àrea apilat)', chart: new Chart(BalanceEvolutionChartBuilder.getChartOptions(this.moviments)), storeable: true});  
+      
+      if (this.dies.length===1) {
+        if (this.ingressos.length>0) {
+          this.charts.push({text: 'Ingressos dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.POSITIVE)), storeable: true});
+        }
+        if (this.despeses.length>0) {
+          this.charts.push({text: 'Despeses dia', chart: new Chart(DayChartBuilder.getChartOptions(this.moviments, AmountSymbolEnum.NEGATIVE)), storeable: true});
+        }
+      }
+      if (this.anys.length>1) {
+        this.charts.push({text: 'Comparativa de saldo interanual', chart: new Chart(BalanceComparisonInteranualChartBuilder.getChartOptions(this.moviments)), storeable: false}); 
+      }
+      if (this.mesos.length>1) {
+        this.charts.push({text: 'Evolució ingresos/despeses (mensual)', chart: new Chart(DateIntervalChartBuilder.getChartOptions(this.moviments, INTERVAL_CHART_EVOL_TYPE_ENUM.MONTHLY)), storeable: true});
+      }
+
+      this.charts.sort((a,b) => {
+        return a.text>b.text?1:-1;
+      });
     }
-    if (this.anys.length>1) {
-      this.charts.push({text: 'Comparativa de saldo interanual', chart: new Chart(BalanceComparisonInteranualChartBuilder.getChartOptions(this.moviments)), storeable: false}); 
-    }
+   
   }
 
   selectChartIndex(idx: number, storeable: boolean): void {
@@ -82,8 +84,6 @@ export class BsMovimentsListChartComponent implements OnChanges {
     this.selectChartIndex((!this.cookiesService.get('selectedChartIndex')) ? 0 : parseInt(this.cookiesService.get('selectedChartIndex')), true);
 
     if (changes.moviments) {
-     this.charts = [];
-     this.checkFilterValueChartType();
      this.renderCharts();     
     }
   }
